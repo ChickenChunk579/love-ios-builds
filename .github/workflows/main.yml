@@ -540,12 +540,12 @@ jobs:
         xcodebuild -downloadPlatform iOS
     - name: Build
       run:
-        xcodebuild archive -project platform/xcode/love.xcodeproj -scheme love-ios -archivePath love-ios.xcarchive -configuration Release -destination 'platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+        xcodebuild -project platform/xcode/love.xcodeproj -scheme love-ios -archivePath love-ios.xcarchive -configuration Release -destination 'platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
     - name: Create IPA
       run: 
         find love-ios.xcarchive
         mkdir Payload
-        mv love-ios.xcarchive/Products/Applications/love-ios.app Payload/love-ios.app
+        mv love-ios.xcarchive/Products/Applications/love.app Payload/love.app
 
         zip -r "love-ios.ipa" "Payload"
 
