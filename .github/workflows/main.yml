@@ -538,9 +538,10 @@ jobs:
     - name: Install iOS SDK
       run: |
         xcodebuild -downloadPlatform iOS
+        xcodebuild -showsdk
     - name: Build
       run:
-        xcodebuild -project platform/xcode/love.xcodeproj -scheme love-ios -archivePath love-ios.xcarchive -configuration Release -sdk iPhoneOS18.1 build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$PWD/Build
+        xcodebuild -project platform/xcode/love.xcodeproj -scheme love-ios -archivePath love-ios.xcarchive -configuration Release -sdk iphoneos build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$PWD/Build
     - name: Create IPA
       run: |
         mkdir Payload
