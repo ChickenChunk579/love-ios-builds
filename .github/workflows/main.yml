@@ -535,9 +535,12 @@ jobs:
       run: |
         mv apple-dependencies/iOS/libraries platform/xcode/ios
         mv apple-dependencies/shared platform/xcode
+    - name: Install iOS SDK
+      run: |
+        xcodebuild -downloadPlatform iOS
     - name: Build
       run:
-        xcodebuild archive -project platform/xcode/love.xcodeproj -scheme love-ios -archivePath love-ios.xcarchive -configuration Release -destination 'platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+        xcodebuild -project platform/xcode/love.xcodeproj -scheme love-ios -archivePath love-ios.xcarchive -configuration Release -destination 'platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
     - name: Create IPA
       run: 
         mkdir Payload
@@ -551,8 +554,6 @@ jobs:
       with:
         name: love-ios
         path: ${{ runner.temp }}/love-ios.ipa
-        # you can also archive the entire directory
-        # path: ${{ runner.temp }}/build
         retention-days: 3
 
   Android:
