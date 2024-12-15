@@ -542,7 +542,7 @@ jobs:
       run:
         xcodebuild -project platform/xcode/love.xcodeproj -scheme love-ios -archivePath love-ios.xcarchive -configuration Release -destination 'platform=iOS,id=dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder,name=Any iOS Device' build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CONFIGURATION_BUILD_DIR=$PWD/Build
     - name: Create IPA
-      run: 
+      run: |
         mkdir Payload
         mv Build/love.app Payload/love.app
 
