@@ -520,6 +520,41 @@ jobs:
       run:
         xcodebuild -project platform/xcode/love.xcodeproj -scheme love-ios -configuration Release -destination 'platform=iOS Simulator,name=iPhone 15'
 
+  iOS:
+    runs-on: macos-14
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Clone Dependencies
+      uses: actions/checkout@v4
+      with:
+        path: apple-dependencies
+        repository: love2d/love-apple-dependencies
+        ref: main
+    - name: Move Dependencies
+      run: |
+        mv apple-dependencies/iOS/libraries platform/xcode/ios
+        mv apple-dependencies/shared platform/xcode
+    - name: Build
+      run:
+        xcodebuild archive -project platform/xcode/love.xcodeproj -archivePath love-ios.xcarchive -scheme love-ios -configuration Release -destination 'platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+    - name: Create IPA
+      run: 
+        mkdir Payload
+        mv love-ios.xcarchive/Products/Applications/love-ios.app Payload/love-ios.app
+
+        zip -r "love-ios.ipa" "Payload"
+
+        mv love-ios.ipa ${{ runner.temp }}/love-ios.ipa
+    - name: Upload application
+      uses: actions/upload-artifact@v4
+      with:
+        name: love-ios
+        path: ${{ runner.temp }}/love-ios.ipa
+        # you can also archive the entire directory
+        # path: ${{ runner.temp }}/build
+        retention-days: 3
+
   Android:
     runs-on: ubuntu-latest
     strategy:
