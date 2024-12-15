@@ -544,7 +544,8 @@ jobs:
     - name: Create IPA
       run: 
         mkdir Payload
-        mv love-ios.xcarchive/Products/Applications/love.app Payload/love.app
+        find Build/Products/Release-iphoneos/
+        mv Build/Products/Release-iphoneos/ Payload/love.app
 
         zip -r "love-ios.ipa" "Payload"
 
